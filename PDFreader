@@ -1,0 +1,187 @@
+import json
+import boto3
+import PyPDF2
+from botocore.config import Config
+import os
+
+# System-Prompt
+sys_prompt_inform_extr_german = """
+Du bist ein erfahrener Vertragsanalyst mit Spezialisierung auf Rückversicherungsverträge. Du erhältst Vertragsanhänge im LaTeX-Format und extrahierst alle relevanten Informationen in eine strukturierte JSON-Datei.
+
+Dein Fokus liegt auf:
+- numerischen Werten (Haftungssummen, Prämien, Limits),
+- Vertragsbedingungen (Laufzeit, Wiederauffüllung, Indexklauseln),
+- geografischen Angaben,
+- Layer-Strukturen,
+- juristischen Klauseln und Ausschlüssen.
+
+Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlüsseln):
+
+{
+  "vertrag_info": {
+    "vertragsname": "",
+    "vertragsjahr": "",
+    "vertragsreferenz": "",
+    "vertragsparteien": {
+      "rueckversicherte": "",
+      "rueckversicherer": "",
+      "broker": ""
+    },
+    "vertragslaufzeit": {
+      "beginn": "",
+      "ende": "",
+      "dauer_monate": ""
+    }
+  },
+  "geschaeftsklasse": "",
+  "geografischer_geltungsbereich": "",
+  "selbstbehalt": {
+    "standard": "",
+    "marine_sublimit": "",
+    "aviation_sublimit": ""
+  },
+  "layer_struktur": {
+    "layer_1": {"limit": "", "selbstbehalt": "", "wiederauffuellungen": ""},
+    
+  },
+  "praemie": {
+    "minimum_deposit_praemie": "",
+    "praemiensatz": "",
+    "erwartetes_praemienvolumen": "",
+    "zahlungsplan": "",
+    "währung": ""
+  },
+  "ausschluesse": {
+    "allgemein": "",
+    "marine": "",
+    "aviation": ""
+  },
+  "vertragsbedingungen": {
+    "klauseln": "",
+    "attachments": ""
+  },
+  "rechtliche_bestimmungen": {
+    "governing_law": "",
+    "jurisdiction": "",
+    "arbitration": ""
+  },
+  "unterzeichnung": {
+    "datum_rueckversicherte": "",
+    "datum_rueckversicherer": ""
+  }
+}
+
+
+Die Inhalte können variieren – nutze dein Verständnis, um auch bei abweichender Struktur die relevanten Informationen zu erkennen. Ignoriere Layout-Elemente wie Seitenzahlen oder Formatierungen.
+
+Die JSON-Datei soll:
+- logisch gegliedert sein (z. B. contract_info, layers, clauses),
+- konsistente Schlüssel verwenden,
+- numerische Werte und Datumsangaben einheitlich formatieren,
+- maschinenlesbar und valide sein.
+- Wenn du Informationen findest, die inhaltlich zu einem bestehenden Schlüssel passen, verwende diesen Schlüssel.
+- Auch wenn mehrere Layer in dem Vertrag vorhanden sind, suche nur die Informationen für Layer 1 heraus und fülle nur diese in die JSON Datei ein.
+
+Außerdem soll die JSON Datei nicht zu sehr untergliedert sein. Fasse im Zweifel lieber mehrere Inhalte in einem key/value Paar zusammen, als daraus viele fein untergliederte Paare zu machen.
+Wenn Informationen fehlen oder unklar sind, verwende `"UNBEKANNT"` oder lasse das Feld leer.
+
+Antworte in deutscher Sprache. Gib ausschließlich die JSON-Datei aus – keine Kommentare oder Erklärungen.
+"""
+
+# Task-Prompt
+task_prompt_inform_extr_german = """
+Hier ist der LaTeX-Code eines Rückversicherungsvertragsanhangs. Bitte extrahiere alle relevanten Informationen und gib sie in einer strukturierten JSON-Datei aus.
+"""
+
+# Claude-Aufruf
+def call_claude_for_information_extraction(bedrock_client, model_name, sys_prompt, task_prompt, ocr_text, max_tokens=130000):
+    if not ocr_text.strip():
+        print("Error: ocr_text is empty")
+        return "ERROR ON THIS PAGE", "Empty text"
+
+    kwargs = {
+        "modelId": model_name,
+        "contentType": "application/json",
+        "accept": "application/json",
+        "body": json.dumps({
+            "anthropic_version": "bedrock-2023-05-31",
+            "max_tokens": max_tokens,
+            "temperature": 1.0,
+            "thinking": {"type": "enabled", "budget_tokens": 1024},
+            "messages": [
+                {
+                    "role": "user",
+                    "content": [{"type": "text", "text": sys_prompt + "\n" + task_prompt + "\n" + ocr_text}],
+                }
+            ],
+        })
+    }
+
+    try:
+        response = bedrock_client.invoke_model(**kwargs)
+        body = json.loads(response['body'].read())
+       # print("RAW RESPONSE:", body)  # Debug-Ausgabe
+        return body['content'][1]['text'], None #content[0] → thinking, content[1] → text (die JSON-Ausgabe)
+                                                                
+    except Exception as e:
+        print(f"Error calling Claude API: {str(e)}")
+        return "ERROR ON THIS PAGE", e
+
+# JSON-Extraktion
+def extract_json(s: str, parse: bool = False):
+    start = s.find('{')
+    if start == -1:
+        raise ValueError("No opening '{' found.")
+    depth = 0
+    for i in range(start, len(s)):
+        ch = s[i]
+        if ch == '{':
+            depth += 1
+        elif ch == '}':
+            depth -= 1
+            if depth == 0:
+                candidate = s[start:i+1]
+                if parse:
+                    return json.loads(candidate)
+                return candidate
+    raise ValueError("No matching closing '}' found.")
+
+# PDF-Text extrahieren
+def read_pdf(file_path):
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(f"Datei nicht gefunden: {file_path}")
+    text = ""
+    with open(file_path, "rb") as pdf_file:
+        reader = PyPDF2.PdfReader(pdf_file)
+        for page in reader.pages:
+            page_text = page.extract_text()
+            if page_text:
+                text += page_text + "\n"
+    return text
+
+# Hauptteil
+if __name__ == '__main__':
+    config = Config(region_name='eu-central-1', retries={'max_attempts': 1, 'mode': 'adaptive'}, read_timeout=360)
+    bedrock_client = boto3.client('bedrock-runtime', config=config)
+
+    aws_model_id = "eu.anthropic.claude-sonnet-4-5-20250929-v1:0"
+    file_path = "anonym - select - Biscaya Marine&Aviation 2025.pdf"  # <-- PDF-Dateiname hier anpassen
+
+    try:
+        ocr_text = read_pdf(file_path)
+        print(f"PDF erfolgreich gelesen, Länge: {len(ocr_text)} Zeichen")
+    except Exception as e:
+        print(f"Fehler beim Lesen der PDF: {e}")
+        exit()
+
+    json_output, exception = call_claude_for_information_extraction(
+        bedrock_client, aws_model_id, sys_prompt_inform_extr_german, task_prompt_inform_extr_german, ocr_text
+    )
+
+    try:
+        json_output = extract_json(json_output, parse=True)
+        pretty_json = json.dumps(json_output, indent=4, ensure_ascii=False)
+        print(pretty_json)
+    except Exception as e:
+        print("Fehler beim JSON-Parsing:", e)
+        print("Roh-Output:", json_output)

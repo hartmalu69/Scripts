@@ -1,0 +1,46 @@
+import boto3
+from botocore.config import Config
+import json
+
+
+if __name__ == '__main__':
+    prompt = "Wie viele Planeten gibt es?"
+    
+    model_id = "eu.anthropic.claude-sonnet-4-5-20250929-v1:0"
+    region = "eu-central-1"  # e.g. eu-central-1
+    config = Config(
+        region_name=region,
+        retries={'max_attempts': 1, 'mode': 'adaptive'},
+        read_timeout=360
+    )
+    
+    #endpoint_url = "<your-endpoint-url>"
+    bedrock_client = boto3.client('bedrock-runtime', config=config)
+    
+    # in this example: keyword arguments for Claude 4.5 Sonnet model 
+    kwargs = {
+            "modelId": model_id,
+            "contentType": "application/json",
+            "accept": "application/json",
+            "body": json.dumps({
+                "anthropic_version": "bedrock-2023-05-31",
+                "max_tokens": 130000,
+                "temperature": 1.0,
+                "thinking": {
+                    "type": "enabled",
+                    "budget_tokens": 1024
+                },
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": [{"type": "text", "text": prompt}],
+                    }
+                ],
+            })
+        }
+    
+    response = bedrock_client.invoke_model(**kwargs)
+    body = json.loads(response['body'].read())
+    answer_text = body['content'][1]['text']
+    
+    print(answer_text)

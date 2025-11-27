@@ -6,92 +6,151 @@ import os
 
 # System-Prompt
 sys_prompt_inform_extr_german = """
-Du bist ein erfahrener guter Vertragsanalyst mit Spezialisierung auf Rückversicherungsverträge. Du erhältst Vertragsanhänge im LaTeX-Format und extrahierst alle relevanten Informationen in eine strukturierte JSON-Datei.
 
-Dein Fokus liegt auf:
-- numerischen Werten (Haftungssummen, Prämien, Limits),
-- Vertragsbedingungen (Laufzeit, Wiederauffüllung, Indexklauseln),
-- geografischen Angaben,
-- Layer-Strukturen,
-- juristischen Klauseln und Ausschlüssen.
+Du bist ein erfahrener Vertragsanalyst mit Spezialisierung auf Rückversicherungsverträge. Du erhältst den Text eines Vertragsanhangs (aus einer PDF-Datei) und extrahierst die relevanten Informationen in eine strukturierte JSON-Datei.
 
-Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlüsseln):
+Regeln:
+- Extrahiere ausschließlich Informationen für:
+  * die **erste Vertragsperiode**,
+  * **nur eine Section (Layer 1)**.
+- Verwende die vorgegebene JSON-Struktur mit allen Schlüsseln (auch wenn keine Werte vorhanden sind).
+- Werte müssen im gleichen Format wie das Beispiel sein:
+  * Strings für Textfelder,
+  * leere Strings `""` oder `"UNBEKANNT"` für fehlende Informationen,
+  * keine zusätzlichen Schlüssel oder Kommentare.
+- Datumsangaben im Format `YYYY-MM-DD` oder `YYYY-MM-DDT00:00:00`.
+- Wenn mehrere Layer oder Perioden vorhanden sind, ignoriere alle außer der ersten und Layer 1.
+- Gib **nur die JSON-Datei** aus, ohne Erklärungen oder Kommentare.
 
+Die JSON-Struktur:
 {
-  "vertrag_info": {
-    "vertragsname": "",
-    "vertragsjahr": "",
-    "vertragsreferenz": "",
-    "vertragsparteien": {
-      "rueckversicherte": "",
-      "rueckversicherer": "",
-      "broker": ""
-    },
-    "vertragslaufzeit": {
-      "beginn": "",
-      "ende": "",
-      "dauer_monate": ""
+  "TREATY_HEADER": {
+    "TREATY_NUMBER": "",
+    "TREATY_TEXT": "",
+    "CEDENT": "",
+    "TTY_DIRECTION": "",
+    "NATURE_OF_TREATY": "",
+    "COMPANY_CODE": "",
+    "ACCOUNTING_FREQ": "",
+    "FIRST_ACCT_KEY_DATE": "",
+    "ACCOUNT_CREATION_PERIOD": "",
+    "END_OF_ACCOUNTING_YEAR": "",
+    "ACCOUNT_LEVEL": "",
+    "REINSURANCE_CHARACTER": "",
+    "TEMPLATE_FnE": "",
+    "ER_ID": ""
+  },
+  "TREATY_PERIOD": [
+    {
+      "TREATY_NUMBER": "",
+      "START_DATE": "",
+      "END_DATE": "",
+      "STATUS": ""
     }
-  },
-  "geschaeftsklasse": "",
-  "geografischer_geltungsbereich": "",
-  "selbstbehalt": {
-    "standard": "",
-    "marine_sublimit": "",
-    "aviation_sublimit": ""
-  },
-  "layer_struktur": {
-    "layer_1": {"limit": "", "selbstbehalt": "", "wiederauffuellungen": ""},
-    
-  },
-  "praemie": {
-    "minimum_deposit_praemie": "",
-    "praemiensatz": "",
-    "erwartetes_praemienvolumen": "",
-    "zahlungsplan": "",
-    "währung": ""
-  },
-  "ausschluesse": {
-    "allgemein": "",
-    "marine": "",
-    "aviation": ""
-  },
-  "vertragsbedingungen": {
-    "klauseln": "",
-    "attachments": ""
-  },
-  "rechtliche_bestimmungen": {
-    "governing_law": "",
-    "jurisdiction": "",
-    "arbitration": ""
-  },
-  "unterzeichnung": {
-    "datum_rueckversicherte": "",
-    "datum_rueckversicherer": ""
-  }
+  ],
+  "SHARES_HEADER": [
+    {
+      "TREATY_NUMBER": "",
+      "INVOLVEMENT": "",
+      "PARTNER_INVOLVED": "",
+      "INVOLVEMENT_TEXT": "",
+      "ROLE_CATEGORY": ""
+    }
+  ],
+  "SHARE_DETAILS": [
+    {
+      "TREATY_NUMBER": "",
+      "INVOLVEMENT": "",
+      "START_DATE": "",
+      "BROKER": ""
+    }
+  ],
+  "PARTNER_SHARE": [
+    {
+      "TREATY_NUMBER": "",
+      "START_DATE": "",
+      "INVOLVEMENT_NUMBER": "",
+      "SECTION_NUMBER": "",
+      "VALID_FROM": "",
+      "SHARE_IN_PERCENT": "",
+      "TR_PS_STATUS": ""
+    }
+  ],
+  "SECTION_HEADER": [
+    {
+      "TREATY_NUMBER": "",
+      "SECTION": "",
+      "SECTION_TEXT": "",
+      "TREATY_TYPE": "",
+      "LAYER": "",
+      "COB": "",
+      "AREA": "",
+      "BUSINESS_TYPE": "",
+      "PREM_ACCOUNTING_MODE": ""
+    }
+  ],
+  "TREATY_SECTION": [
+    {
+      "TREATY_NUMBER": "",
+      "SECTION_NUMBER": "",
+      "START_DATE": "",
+      "CURRENCY": "",
+      "PREM_ACCOUNTING_MODE": "",
+      "ER_ID": ""
+    }
+  ],
+  "AREA_SPLIT": [
+    {
+      "TREATY_NUMBER": "",
+      "SECTION_NUMBER": "",
+      "START_DATE": "",
+      "AREA": "",
+      "SHARE_IN_PERCENT": "",
+      "UW_AREA": "",
+      "AREA_COVERED": ""
+    }
+  ],
+  "TREATY_COB_SPLIT": [
+    {
+      "TREATY_NUMBER": "",
+      "SECTION_NUMBER": "",
+      "START_DATE": "",
+      "COB": ""
+    }
+  ],
+  "TREATY_LOB_SPLIT": [
+    {
+      "TREATY_NUMBER": "",
+      "SECTION_NUMBER": "",
+      "START_DATE": "",
+      "LOB": "",
+      "SHARE_IN_PERCENT": ""
+    }
+  ],
+  "CURRENCY_SPLIT": [
+    {
+      "TREATY_NUMBER": "",
+      "SECTION_NUMBER": "",
+      "DT_PERIOD_START": "",
+      "ORIGINAL_CURRENCY": "",
+      "ER_TYPE_FOR_CURRENCY": ""
+    }
+  ],
+  "PARTNER_FUNCTION": [
+    {
+      "TREATY_NUMBER": "",
+      "INVOLVEMENT_NUMBER": "",
+      "START_DATE": "",
+      "PARTNER_FUNCTION": "",
+      "COMPANY_NAME": ""
+    }
+  ]
 }
 
-
-Die Inhalte können variieren – nutze dein Verständnis, um auch bei abweichender Struktur die relevanten Informationen zu erkennen. Ignoriere Layout-Elemente wie Seitenzahlen oder Formatierungen.
-
-Die JSON-Datei soll:
-- logisch gegliedert sein (z. B. contract_info, layers, clauses),
-- konsistente Schlüssel verwenden,
-- numerische Werte und Datumsangaben einheitlich formatieren,
-- maschinenlesbar und valide sein.
-- Wenn du Informationen findest, die inhaltlich zu einem bestehenden Schlüssel passen, verwende diesen Schlüssel.
-- Auch wenn mehrere Layer in dem Vertrag vorhanden sind, suche nur die Informationen für Layer 1 heraus und fülle nur diese in die JSON Datei ein.
-
-Außerdem soll die JSON Datei nicht zu sehr untergliedert sein. Fasse im Zweifel lieber mehrere Inhalte in einem key/value Paar zusammen, als daraus viele fein untergliederte Paare zu machen.
-Wenn Informationen fehlen oder unklar sind, verwende `"UNBEKANNT"` oder lasse das Feld leer.
-
-Antworte in deutscher Sprache. Gib ausschließlich die JSON-Datei aus – keine Kommentare oder Erklärungen.
 """
 
 # Task-Prompt
-task_prompt_inform_extr_german = """
-Hier ist der LaTeX-Code eines Rückversicherungsvertragsanhangs. Bitte extrahiere alle relevanten Informationen und gib sie in einer strukturierten JSON-Datei aus.
-"""
+task_prompt_inform_extr_german = "Hier ist der Text eines Rückversicherungsvertrags aus einer PDF-Datei. Bitte extrahiere alle relevanten Informationen und gib sie in einer strukturierten JSON-Datei aus."
 
 # Claude-Aufruf
 def call_claude_for_information_extraction(bedrock_client, model_name, sys_prompt, task_prompt, ocr_text, max_tokens=130000):

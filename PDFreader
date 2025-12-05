@@ -318,7 +318,7 @@ if __name__ == '__main__':
     bedrock_client = boto3.client('bedrock-runtime', config=config)
 
     aws_model_id = "eu.anthropic.claude-sonnet-4-5-20250929-v1:0"
-    file_path = "anonym - select - Biscaya Marine&Aviation 2025.pdf"  # <-- PDF-Dateiname hier anpassen
+    file_path = "anonym - select - Edinburgh MTPL_QS SC_2025.pdf"  # <-- PDF-Dateiname hier anpassen
 
     try:
         ocr_text = read_pdf(file_path)

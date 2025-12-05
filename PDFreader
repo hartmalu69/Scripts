@@ -27,18 +27,20 @@ Regeln:
 Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlüsseln):
 
 {
-  {
-  "TREATY_HEADER": {
+  
+  "TREATY_HEADER":[
+
+   {
     "TREATY_NUMBER": "<TREATY_NUMBER>",
     "TREATY_TEXT": "Example: DBV LEBEN",
     "CEDENT": "Example: Biscaya named as Reinsured",
-    "TTY_DIRECTION": "Example: Incoming when you are the Reinsurer and Outgoing when you are the Cedent",
     "NATURE_OF_TREATY": "Example: proportional or non-proportional",
-    "ACCOUNTING_FREQ": "Example: monthly/quarterly/annual/halfyearly",
+    "ACCOUNTING_FREQ": "Example: monthly/quarterly/annual/halfyearly" depends on the amount of installments paid for example 4 installments then it´s quarterly,
     "FIRST_ACCT_KEY_DATE": "For non-proportional treaties: Treaty start date",
     "ACCOUNT_CREATION_PERIOD": "Frist für Abrechnungserstellung",
     "END_OF_ACCOUNTING_YEAR": "Period End date",
   },
+  ],
   "TREATY_PERIOD": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -148,22 +150,17 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "PREM_ACCOUNTING_MODE": "Accounting Year, Underwriting Year or Occurence Year",
       "ER_ID": null,
     }
+  ],
 "NP Liability": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "8",
       "SECTION_TEXT": "Example: UZV 25% EXZ",
-      "Liability 1": [
-      "Attachment Point": "Attachment Point or Priority in EUR",
-      "Loss Adj. Expenses": "Are Loss Adj. Expenses in Limit? Y/N",
-      ],
-
-      "Liability 2": [
-      "Attachment Point": "Attachment Point or Priority in EUR",
-      "Loss Adj. Expenses": "Are Loss Adj. Expenses in Limit? Y/N",
-      ],
+      "Liability 1": "Attachement Point in EUR"
+      "Liability 2": "Liability Limit in EUR",
       "START_DATE": "2021-01-01T00:00:00",
     },
+],
  "NP PREMIUM": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -175,6 +172,7 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "Reinstatement": "X" if any information about it,
       "Installment": "Example: How much installments for the M&D Premium and when: 80.000 EUR on 01.01.2021 and 15.02.2021",
       "Perils": Coverage in EUR when mentioned,
+      "Exclusions": "Exclusions as String" if any information about it,
       "START_DATE": "2021-01-01T00:00:00",
     },
 

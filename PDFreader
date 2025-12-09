@@ -10,9 +10,6 @@ Du bist ein erfahrener Vertragsanalyst mit Spezialisierung auf Rückversicherung
 
 Regeln:
 - Wichtig! Wir wollen mit dem erzeugten JSON über eine API einen Vertrag in ein System einpflegen. Daher ist es essenziell, dass die JSON-Struktur exakt eingehalten wird und du nicht so viel Text schreibst sondern dich auf die Werte fokussierst.
-- Extrahiere ausschließlich Informationen für:
-  * die erste Vertragsperiode,
-  * Pro Layer muss ein eigener Vertrag angelegt werden und in diesem Fall legst du nur einen Layer (Vertrag) an.
 - Verwende die vorgegebene JSON-Struktur mit allen Schlüsseln (auch wenn keine Werte vorhanden sind).
 - Werte müssen im gleichen Format wie das Beispiel sein:
   * Strings für Textfelder,
@@ -20,7 +17,8 @@ Regeln:
   * keine zusätzlichen Schlüssel oder Kommentare.
 - Datumsangaben im Format YYYY-MM-DD oder YYYY-MM-DDT00:00:00 und für Amerikanische Datumsangaben MM/DD/YYYY in YYYY-MM-DDT00:00:00 umwandeln.
 - Unter "TREATY_PERIOD" findest du am Anfang die Perioden des Vertrags und in allen folgenden Feldern nimmst du auch das Startdatum bzw. Enddatum der jeweiligen Periode.
-- Wenn mehrere Layer oder Perioden vorhanden sind, ignoriere alle außer der ersten und Layer 1.
+- Wenn es sich um einen Summenexzedentenvertrag handelt, fülle nur die Felder unter "Suex" aus.
+- Wenn es sich um einen Quotenanteilvertrag handelt, fülle nur die Felder unter "Quota" aus.
 - Gib nur die JSON-Datei aus, ohne Erklärungen oder Kommentare.
 - Wenn du das Wort "Example:" siehst, dann habe ich dir ein Beispiel gegeben, wie der Wert aussehen könnte. Ersetze "Example:" und den Beispielwert durch den tatsächlichen Wert aus dem Vertrag oder lasse das Feld leer, wenn der Wert nicht gefunden werden kann.
 
@@ -139,32 +137,27 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "PREM_ACCOUNTING_MODE": "Accounting Year, Underwriting Year or Occurence Year",
     }
   ],
-"NP Liability": [
+"Quota": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "8",
       "SECTION_TEXT": "Example: UZV 25% EXZ",
-      "Liability 1": "Attachement Point in EUR"
-      "Liability 2": "Liability Limit in EUR",
-      "START_DATE": "2021-01-01T00:00:00",
+      "Share": "Quota Share in Percentage",
+      "Limit": "Liability Limit in EUR",
+      "EPI": "Estimated Premium Income in EUR",
     },
-],
- "NP PREMIUM": [
+  ],
+"Suex": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "SECTION_NUMBER": "",
-      "SECTION_TEXT": "",
-      "Fixed Premium": "Premium in EUR for Example but not M&D Premium",
-      "Fixed Premium Rate": "Percentage rate if any or total rate",
-      "Estimated Subject Premium": "Gross Net Premium or Expected Premium Income but in the found Currency",
-      "Reinstatement": "X if any information about it",
-      "Installment": "Example: How much installments for the M&D Premium and when: 80.000 EUR on 01.01.2021 and 15.02.2021",
-      "Perils": "Coverage in EUR when mentioned",
-      "Exclusions": "Exclusions as String if any information about it",
-      "START_DATE": "2021-01-01T00:00:00",
-    },
-
+      "SECTION_NUMBER": "1",
+      "SECTION_TEXT": "Example: UZV 25% EXZ",
+      "Maxima": "Retention in EUR",
+      "Limit": "Liability Limit in EUR",
+      "Priority": "Estimated Premium Income in EUR",
+    }
   ],
+ 
   "AREA_SPLIT": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",

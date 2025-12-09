@@ -1,0 +1,143 @@
+{
+    "TREATY_HEADER": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "TREATY_TEXT": "Motor Third Party Liability Business Special Conditions 2025",
+            "CEDENT": "Edinburgh Insurance",
+            "NATURE_OF_TREATY": "proportional",
+            "ACCOUNTING_FREQ": "quarterly",
+            "FIRST_ACCT_KEY_DATE": "2025-01-01T00:00:00",
+            "ACCOUNT_CREATION_PERIOD": "60 days",
+            "END_OF_ACCOUNTING_YEAR": "2025-12-31T00:00:00"
+        }
+    ],
+    "TREATY_PERIOD": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "START_DATE": "2025-01-01T00:00:00",
+            "END_DATE": "2025-12-31T00:00:00"
+        }
+    ],
+    "SHARES_HEADER": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "INVOLVEMENT": "1",
+            "PARTNER_INVOLVED": "New York Re",
+            "INVOLVEMENT_TEXT": "Reinsurer Share",
+            "ROLE_CATEGORY": "Reinsurer"
+        },
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "INVOLVEMENT": "2",
+            "PARTNER_INVOLVED": "Edinburgh Insurance",
+            "INVOLVEMENT_TEXT": "Cedent Share",
+            "ROLE_CATEGORY": "Cedent"
+        }
+    ],
+    "SHARE_DETAILS": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "INVOLVEMENT": "1",
+            "START_DATE": "2025-01-01T00:00:00",
+            "BROKER": null
+        },
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "INVOLVEMENT": "2",
+            "START_DATE": "2025-01-01T00:00:00",
+            "BROKER": null
+        }
+    ],
+    "PARTNER_SHARE": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "START_DATE": "2025-01-01T00:00:00",
+            "INVOLVEMENT_NUMBER": "1",
+            "SECTION_NUMBER": "1",
+            "VALID_FROM": "2025-01-01T00:00:00",
+            "SHARE_IN_PERCENT": "60"
+        },
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "START_DATE": "2025-01-01T00:00:00",
+            "INVOLVEMENT_NUMBER": "2",
+            "SECTION_NUMBER": "1",
+            "VALID_FROM": "2025-01-01T00:00:00",
+            "SHARE_IN_PERCENT": "100"
+        }
+    ],
+    "TREATY_SECTION": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "SECTION_NUMBER": "1",
+            "SECTION_TEXT": "Motor Third Party Liability",
+            "AREA": "Country of domicile and Green Card Agreement territories",
+            "COB": "Motor Third Party Liability",
+            "BUSINESS_TYPE": "Direct Business",
+            "START_DATE": "2025-01-01T00:00:00",
+            "CURRENCY": "GBP",
+            "PREM_ACCOUNTING_MODE": "Underwriting Year",
+            "ER_ID": null
+        }
+    ],
+    "NP Liability": [],
+    "NP PREMIUM": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "SECTION_NUMBER": "1",
+            "SECTION_TEXT": "Motor Third Party Liability",
+            "Fixed Premium": "",
+            "Fixed Premium Rate": "60%",
+            "Estimated Subject Premium": "186000000 GBP",
+            "Reinstatement": "",
+            "Installment": "",
+            "Perils": "material damage GBP 40,000,000 per event, bodily injury GBP 40,000,000 per person",
+            "Exclusions": "Losses in USA/Canada, Vehicles on rails/cables/waterborne/aircraft/hovercraft, Motor races except when traffic rules observed, Aviation Liability except airport premises vehicles, Goods in transit, Armed forces/law enforcement special vehicles, Contractors plant unless compulsory insurance, War and Civil War NMA 464",
+            "START_DATE": "2025-01-01T00:00:00"
+        }
+    ],
+    "AREA_SPLIT": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "SECTION_NUMBER": "1",
+            "START_DATE": "2025-01-01T00:00:00",
+            "AREA": "Country of domicile and Green Card Agreement territories",
+            "SHARE_IN_PERCENT": 0,
+            "UW_AREA": "X",
+            "AREA_COVERED": "X"
+        }
+    ],
+    "TREATY_COB_SPLIT": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "SECTION_NUMBER": "1",
+            "START_DATE": "2025-01-01T00:00:00",
+            "COB": "Motor Third Party Liability"
+        }
+    ],
+    "CURRENCY_SPLIT": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "SECTION_NUMBER": 1,
+            "DT_PERIOD_START": "2025-01-01T00:00:00",
+            "ORIGINAL_CURRENCY": "GBP",
+            "ER_TYPE_FOR_CURRENCY": "M"
+        }
+    ],
+    "PARTNER_FUNCTION": [
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "INVOLVEMENT_NUMBER": "1",
+            "START_DATE": "2025-01-01T00:00:00",
+            "PARTNER_FUNCTION": "Payment Receiver Reinsurer",
+            "COMPANY_NAME": "New York Re"
+        },
+        {
+            "TREATY_NUMBER": "UNBEKANNT",
+            "INVOLVEMENT_NUMBER": "2",
+            "START_DATE": "2025-01-01T00:00:00",
+            "PARTNER_FUNCTION": "Account Receiver Reinsurer",
+            "COMPANY_NAME": "Edinburgh Insurance"
+        }
+    ]
+}

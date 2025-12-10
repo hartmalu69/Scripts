@@ -1,0 +1,131 @@
+{
+  "timestamp": "2025-12-10T14:43:41.014272",
+  "status": "success",
+  "generated_pdfs": [
+    {
+      "type": "main",
+      "path": "generated_treaties\\Treaty_EX2025001_Main.pdf"
+    },
+    {
+      "type": "variation_1",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_1.pdf"
+    },
+    {
+      "type": "variation_2",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_2.pdf"
+    },
+    {
+      "type": "variation_3",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_3.pdf"
+    },
+    {
+      "type": "variation_4",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_4.pdf"
+    },
+    {
+      "type": "variation_5",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_5.pdf"
+    },
+    {
+      "type": "variation_6",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_6.pdf"
+    },
+    {
+      "type": "variation_7",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_7.pdf"
+    },
+    {
+      "type": "variation_8",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_8.pdf"
+    },
+    {
+      "type": "variation_9",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_9.pdf"
+    },
+    {
+      "type": "variation_10",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_10.pdf"
+    },
+    {
+      "type": "variation_11",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_11.pdf"
+    },
+    {
+      "type": "variation_12",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_12.pdf"
+    },
+    {
+      "type": "variation_13",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_13.pdf"
+    },
+    {
+      "type": "variation_14",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_14.pdf"
+    },
+    {
+      "type": "variation_15",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_15.pdf"
+    },
+    {
+      "type": "variation_16",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_16.pdf"
+    },
+    {
+      "type": "variation_17",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_17.pdf"
+    },
+    {
+      "type": "variation_18",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_18.pdf"
+    },
+    {
+      "type": "variation_19",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_19.pdf"
+    },
+    {
+      "type": "variation_20",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_20.pdf"
+    },
+    {
+      "type": "variation_21",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_21.pdf"
+    },
+    {
+      "type": "variation_22",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_22.pdf"
+    },
+    {
+      "type": "variation_23",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_23.pdf"
+    },
+    {
+      "type": "variation_24",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_24.pdf"
+    },
+    {
+      "type": "variation_25",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_25.pdf"
+    },
+    {
+      "type": "variation_26",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_26.pdf"
+    },
+    {
+      "type": "variation_27",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_27.pdf"
+    },
+    {
+      "type": "variation_28",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_28.pdf"
+    },
+    {
+      "type": "variation_29",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_29.pdf"
+    },
+    {
+      "type": "variation_30",
+      "path": "generated_treaties\\Treaty_EX2025001_Variation_30.pdf"
+    }
+  ],
+  "log_messages": []
+}

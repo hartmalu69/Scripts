@@ -92,22 +92,54 @@ class TreatyAnalyzer:
         treaty_match = re.search(r'Treaty\s+(?:Number|No\.?):\s*([A-Z0-9\-]+)', text, re.I)
         if treaty_match:
             metadata['treaty_number'] = treaty_match.group(1)
+        else:
+            # Try alternative patterns
+            treaty_match = re.search(r'(?:Treaty|Contract)\s+(?:Ref|Reference|ID):\s*([A-Z0-9\-]+)', text, re.I)
+            if treaty_match:
+                metadata['treaty_number'] = treaty_match.group(1)
         
-        # Extract cedent
-        cedent_match = re.search(r'Cedent:?\s+([A-Za-z\s&,]+?)(?:\n|$)', text, re.I)
-        if cedent_match:
-            metadata['cedent'] = cedent_match.group(1).strip()
+        # Extract cedent - try multiple patterns
+        cedent_patterns = [
+            r'(?:Cedent|Ceding Company|Ceding Insurer):\s*([A-Za-z\s&,\.]+?)(?:\n|$)',
+            r'(?:Cedent|Ceding Company):\s*([A-Za-z\s&,\.]+?)(?:Reinsurer|$)',
+            r'Ceded\s+by:\s*([A-Za-z\s&,\.]+?)(?:\n|$)',
+            r'(?:Insurance Company|Insured|Client):\s*([A-Za-z\s&,\.]+?)(?:\n|$)',
+        ]
+        
+        for pattern in cedent_patterns:
+            cedent_match = re.search(pattern, text, re.I)
+            if cedent_match:
+                cedent = cedent_match.group(1).strip()
+                if len(cedent) > 3 and len(cedent) < 200:  # Reasonable company name length
+                    metadata['cedent'] = cedent
+                    break
+        
+        # Extract reinsurer - try multiple patterns
+        reinsurer_patterns = [
+            r'(?:Reinsurer|Reinsuring Company|Reinsurance Company):\s*([A-Za-z\s&,\.]+?)(?:\n|$)',
+            r'(?:Reinsurer|Assuming Company):\s*([A-Za-z\s&,\.]+?)(?:Cedent|Commission|$)',
+            r'Assumed\s+by:\s*([A-Za-z\s&,\.]+?)(?:\n|$)',
+            r'(?:To be reinsured with|Reinsured with):\s*([A-Za-z\s&,\.]+?)(?:\n|$)',
+        ]
+        
+        for pattern in reinsurer_patterns:
+            reinsurer_match = re.search(pattern, text, re.I)
+            if reinsurer_match:
+                reinsurer = reinsurer_match.group(1).strip()
+                if len(reinsurer) > 3 and len(reinsurer) < 200:  # Reasonable company name length
+                    metadata['reinsurer'] = reinsurer
+                    break
         
         # Extract period
-        period_match = re.search(r'(?:Period|Effective).*?(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})\s+(?:to|through|-)\s+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})', text, re.I)
+        period_match = re.search(r'(?:Period|Effective|Term).*?(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})\s+(?:to|through|-)\s+(\d{1,2}[/-]\d{1,2}[/-]\d{2,4})', text, re.I)
         if period_match:
             metadata['start_date'] = period_match.group(1)
             metadata['end_date'] = period_match.group(2)
         
         # Extract nature of treaty
-        nature_patterns = ['proportional', 'non-proportional', 'excess of loss', 'quota share', 'facultative']
+        nature_patterns = ['proportional', 'non-proportional', 'excess of loss', 'quota share', 'facultative', 'excess', 'surplus']
         for pattern in nature_patterns:
-            if re.search(pattern, text, re.I):
+            if re.search(rf'\b{pattern}\b', text, re.I):
                 metadata['nature_of_treaty'] = pattern.title()
                 break
         

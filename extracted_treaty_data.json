@@ -1,8 +1,8 @@
 {
     "TREATY_HEADER": [
         {
-            "TREATY_NUMBER": "",
-            "TREATY_TEXT": "Proportional Reinsurance Agreement for Motor Third Party Liability Business",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
+            "TREATY_TEXT": "Motor Third Party Liability Business",
             "CEDENT": "Edinburgh Insurance",
             "NATURE_OF_TREATY": "proportional",
             "ACCOUNTING_FREQ": "quarterly",
@@ -13,21 +13,21 @@
     ],
     "TREATY_PERIOD": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "START_DATE": "2025-01-01T00:00:00",
             "END_DATE": "2025-12-31T00:00:00"
         }
     ],
     "SHARES_HEADER": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "INVOLVEMENT": "1",
             "PARTNER_INVOLVED": "New York Re",
             "INVOLVEMENT_TEXT": "Reinsurer Share",
             "ROLE_CATEGORY": "Reinsurer"
         },
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "INVOLVEMENT": "2",
             "PARTNER_INVOLVED": "Edinburgh Insurance",
             "INVOLVEMENT_TEXT": "Cedent Share",
@@ -36,13 +36,13 @@
     ],
     "SHARE_DETAILS": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "INVOLVEMENT": "1",
             "START_DATE": "2025-01-01T00:00:00",
             "BROKER": null
         },
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "INVOLVEMENT": "2",
             "START_DATE": "2025-01-01T00:00:00",
             "BROKER": null
@@ -50,7 +50,7 @@
     ],
     "PARTNER_SHARE": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "START_DATE": "2025-01-01T00:00:00",
             "INVOLVEMENT_NUMBER": "1",
             "SECTION_NUMBER": "1",
@@ -58,46 +58,45 @@
             "SHARE_IN_PERCENT": "100"
         },
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "START_DATE": "2025-01-01T00:00:00",
             "INVOLVEMENT_NUMBER": "2",
             "SECTION_NUMBER": "1",
             "VALID_FROM": "2025-01-01T00:00:00",
-            "SHARE_IN_PERCENT": "0"
+            "SHARE_IN_PERCENT": "40"
         }
     ],
     "TREATY_SECTION": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "SECTION_NUMBER": "1",
-            "SECTION_TEXT": "Motor Third Party Liability Business",
-            "AREA": "Country of domicile of Reinsured and territories under Green Card Agreement",
+            "SECTION_TEXT": "Motor Third Party Liability",
+            "AREA": "UK and Green Card Agreement territories",
             "COB": "Motor Third Party Liability",
             "BUSINESS_TYPE": "Direct Business",
             "START_DATE": "2025-01-01T00:00:00",
-            "CURRENCY": "GBP",
+            "CURRENCY": "USD",
             "PREM_ACCOUNTING_MODE": "Underwriting Year",
             "ER_ID": null
         }
     ],
     "Quota": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "SECTION_NUMBER": "1",
-            "SECTION_TEXT": "Motor Third Party Liability Business",
+            "SECTION_TEXT": "Motor Third Party Liability",
             "Share": "60",
-            "Limit": "40000000",
-            "EPI": "186000000"
+            "Limit": "40000000 GBP domestic / Green Card Agreement limits",
+            "EPI": "186000000 GBP"
         }
     ],
     "Suex": [],
-    "NP PREMIUM": [],
     "AREA_SPLIT": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "SECTION_NUMBER": "1",
             "START_DATE": "2025-01-01T00:00:00",
-            "AREA": "Country of domicile of Reinsured and Green Card Agreement territories",
+            "AREA": "UK and Green Card Agreement territories",
             "SHARE_IN_PERCENT": 0,
             "UW_AREA": "X",
             "AREA_COVERED": "X"
@@ -105,7 +104,7 @@
     ],
     "TREATY_COB_SPLIT": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "SECTION_NUMBER": "1",
             "START_DATE": "2025-01-01T00:00:00",
             "COB": "Motor Third Party Liability"
@@ -113,23 +112,23 @@
     ],
     "CURRENCY_SPLIT": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "SECTION_NUMBER": 1,
             "DT_PERIOD_START": "2025-01-01T00:00:00",
-            "ORIGINAL_CURRENCY": "GBP",
+            "ORIGINAL_CURRENCY": "USD",
             "ER_TYPE_FOR_CURRENCY": "M"
         }
     ],
     "PARTNER_FUNCTION": [
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "INVOLVEMENT_NUMBER": "1",
             "START_DATE": "2025-01-01T00:00:00",
             "PARTNER_FUNCTION": "Account Receiver Reinsurer",
             "COMPANY_NAME": "New York Re"
         },
         {
-            "TREATY_NUMBER": "",
+            "TREATY_NUMBER": "MTPL-2025-EI-NYR",
             "INVOLVEMENT_NUMBER": "2",
             "START_DATE": "2025-01-01T00:00:00",
             "PARTNER_FUNCTION": "Payment Receiver Reinsurer",

@@ -139,7 +139,6 @@ class ExamplePDFCreator:
                         self._log(f"  ✓ PDF {i} written: {pdf_path}")
             
             self._log(f"✓ Created {len(results['generated_pdfs'])} PDF files")
-            self._save_results_log(results)
             
         except Exception as e:
             results['status'] = 'error'
@@ -155,23 +154,6 @@ class ExamplePDFCreator:
         log_entry = f"[{timestamp}] {message}"
         self.log.append(log_entry)
         print(log_entry)
-    
-    def _save_results_log(self, results: dict):
-        """Save results to a JSON file."""
-        log_filename = f"creation_log_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        
-        # Prepare log data
-        log_data = {
-            'timestamp': datetime.now().isoformat(),
-            'status': results.get('status'),
-            'generated_pdfs': results.get('generated_pdfs', []),
-            'log_messages': results.get('log', [])
-        }
-        
-        with open(log_filename, 'w', encoding='utf-8') as f:
-            json.dump(log_data, f, ensure_ascii=False, indent=2)
-        
-        self._log(f"✓ Results saved to {log_filename}")
     
     def print_summary(self, results: dict):
         """Print a summary of the creation results."""

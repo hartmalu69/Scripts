@@ -1,0 +1,47 @@
+{
+  "timestamp": "2025-12-12T08:37:23.334525",
+  "status": "success",
+  "generated_pdfs": [
+    {
+      "type": "treaty_2",
+      "path": "generated_treaties\\Treaty_EX2025001_2.pdf"
+    },
+    {
+      "type": "treaty_3",
+      "path": "generated_treaties\\Treaty_EX2025001_3.pdf"
+    },
+    {
+      "type": "treaty_1",
+      "path": "generated_treaties\\Treaty_EX2025001_1.pdf"
+    },
+    {
+      "type": "treaty_6",
+      "path": "generated_treaties\\Treaty_EX2025001_6.pdf"
+    },
+    {
+      "type": "treaty_4",
+      "path": "generated_treaties\\Treaty_EX2025001_4.pdf"
+    },
+    {
+      "type": "treaty_5",
+      "path": "generated_treaties\\Treaty_EX2025001_5.pdf"
+    },
+    {
+      "type": "treaty_8",
+      "path": "generated_treaties\\Treaty_EX2025001_8.pdf"
+    },
+    {
+      "type": "treaty_7",
+      "path": "generated_treaties\\Treaty_EX2025001_7.pdf"
+    },
+    {
+      "type": "treaty_10",
+      "path": "generated_treaties\\Treaty_EX2025001_10.pdf"
+    },
+    {
+      "type": "treaty_9",
+      "path": "generated_treaties\\Treaty_EX2025001_9.pdf"
+    }
+  ],
+  "log_messages": []
+}

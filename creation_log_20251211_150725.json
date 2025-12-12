@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-12-11T15:07:25.059992",
+  "status": "success",
+  "generated_pdfs": [
+    {
+      "type": "treaty_1",
+      "path": "generated_treaties\\Treaty_EX2025001_1.pdf"
+    }
+  ],
+  "log_messages": []
+}

@@ -3,6 +3,8 @@ import boto3
 import PyPDF2
 from botocore.config import Config
 import os
+import tkinter as tk
+from tkinter import filedialog
 
 # System-Prompt
 sys_prompt_inform_extr_german = """
@@ -10,6 +12,9 @@ Du bist ein erfahrener Vertragsanalyst mit Spezialisierung auf Rückversicherung
 
 Regeln:
 - Wichtig! Wir wollen mit dem erzeugten JSON über eine API einen Vertrag in ein System einpflegen. Daher ist es essenziell, dass die JSON-Struktur exakt eingehalten wird und du nicht so viel Text schreibst sondern dich auf die Werte fokussierst.
+- Extrahiere ausschließlich Informationen für:
+  * die erste Vertragsperiode,
+  * Pro Layer muss ein eigener Vertrag angelegt werden und in diesem Fall legst du nur einen Layer (Vertrag) an.
 - Verwende die vorgegebene JSON-Struktur mit allen Schlüsseln (auch wenn keine Werte vorhanden sind).
 - Werte müssen im gleichen Format wie das Beispiel sein:
   * Strings für Textfelder,
@@ -17,28 +22,25 @@ Regeln:
   * keine zusätzlichen Schlüssel oder Kommentare.
 - Datumsangaben im Format YYYY-MM-DD oder YYYY-MM-DDT00:00:00 und für Amerikanische Datumsangaben MM/DD/YYYY in YYYY-MM-DDT00:00:00 umwandeln.
 - Unter "TREATY_PERIOD" findest du am Anfang die Perioden des Vertrags und in allen folgenden Feldern nimmst du auch das Startdatum bzw. Enddatum der jeweiligen Periode.
-- Wenn es sich um einen Summenexzedentenvertrag handelt, fülle nur die Felder unter "Suex" aus.
-- Wenn es sich um einen Quotenanteilvertrag handelt, fülle nur die Felder unter "Quota" aus.
+- Wenn mehrere Layer oder Perioden vorhanden sind, ignoriere alle außer der ersten und Layer 1.
 - Gib nur die JSON-Datei aus, ohne Erklärungen oder Kommentare.
 - Wenn du das Wort "Example:" siehst, dann habe ich dir ein Beispiel gegeben, wie der Wert aussehen könnte. Ersetze "Example:" und den Beispielwert durch den tatsächlichen Wert aus dem Vertrag oder lasse das Feld leer, wenn der Wert nicht gefunden werden kann.
 
 Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlüsseln):
 
 {
-  
-  "TREATY_HEADER":[
-
-   {
+  {
+  "TREATY_HEADER": {
     "TREATY_NUMBER": "<TREATY_NUMBER>",
     "TREATY_TEXT": "Example: DBV LEBEN",
     "CEDENT": "Example: Biscaya named as Reinsured",
+    "TTY_DIRECTION": "Example: Incoming when you are the Reinsurer and Outgoing when you are the Cedent",
     "NATURE_OF_TREATY": "Example: proportional or non-proportional",
-    "ACCOUNTING_FREQ": "Example: monthly/quarterly/annual/halfyearly" depends on the amount of installments paid for example 4 installments then it´s quarterly",
+    "ACCOUNTING_FREQ": "Example: monthly/quarterly/annual/halfyearly",
     "FIRST_ACCT_KEY_DATE": "For non-proportional treaties: Treaty start date",
     "ACCOUNT_CREATION_PERIOD": "Frist für Abrechnungserstellung",
     "END_OF_ACCOUNTING_YEAR": "Period End date",
   },
-  ],
   "TREATY_PERIOD": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -64,31 +66,31 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "INVOLVEMENT": "Wähle eine hochzählende Nummer startend bei 1",
       "PARTNER_INVOLVED": "Cedent Name",
       "INVOLVEMENT_TEXT": "Our Share",
-      "ROLE_CATEGORY": "Cedent",
+      "ROLE_CATEGORY": "Cedent"
     }
   ],
   "SHARE_DETAILS": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "2021-01-01T00:00:00",
       "BROKER": null,
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "1964-01-01T00:00:00",
       "BROKER": null,
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "1964-01-01T00:00:00",
       "BROKER": null,
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "2021-01-01T00:00:00",
       "BROKER": null,
     }
@@ -100,7 +102,8 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
       "SECTION_NUMBER": "1",
       "VALID_FROM": "1972-01-01T00:00:00",
-      "SHARE_IN_PERCENT": "",
+      "SHARE_IN_PERCENT": 25,
+      "TR_PS_STATUS": "005"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -108,14 +111,24 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
       "SECTION_NUMBER": "1",
       "VALID_FROM": "1980-01-01T00:00:00",
-      "SHARE_IN_PERCENT": "",
+      "SHARE_IN_PERCENT": 0,
+      "TR_PS_STATUS": "005"
     },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "START_DATE": "2021-01-01T00:00:00",
+      "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "SECTION_NUMBER": "8",
+      "VALID_FROM": "2021-01-01T00:00:00",
+      "SHARE_IN_PERCENT": 15,
+      "TR_PS_STATUS": "001"
+    }
   ],
   
   "TREATY_SECTION": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "SECTION_NUMBER": "Example: 8",
+      "SECTION_NUMBER": "8",
       "SECTION_TEXT": "Example: UZV 25% EXZ",
       "AREA": "Example: Germany, USA",
       "COB": "Example: Motor, Property",
@@ -135,29 +148,34 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "START_DATE": "2021-01-01T00:00:00",
       "CURRENCY": "Example: EUR",
       "PREM_ACCOUNTING_MODE": "Accounting Year, Underwriting Year or Occurence Year",
+      "ER_ID": null,
     }
-  ],
-"Quota": [
+"NP Liability": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "8",
       "SECTION_TEXT": "Example: UZV 25% EXZ",
-      "Share": "Quota Share in Percentage",
-      "Limit": "Liability Limit in EUR",
-      "EPI": "Estimated Premium Income in EUR",
+      "Attachement Point": "Example:Priority or Retention 500000 EUR",
+      "Limit": "Example: Liability 2000000 EUR",
+      "Loss Adj. Expenses": "IN Limit or out of Limit",
+      "Amounts Covered": "null"
+      "START_DATE": "2021-01-01T00:00:00",
     },
-  ],
-"Suex": [
+ "NP PREMIUM": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "SECTION_NUMBER": "1",
+      "SECTION_NUMBER": "8",
       "SECTION_TEXT": "Example: UZV 25% EXZ",
-      "Maxima": "Retention in EUR",
-      "Limit": "Liability Limit in EUR",
-      "Priority": "Estimated Premium Income in EUR",
-    }
+      "Fixed Premium": "Premium in EUR for Example but not M&D Premium",
+      "Fixed Premium Rate": "Percentage rate if any or total rate",
+      "Estimated Subject Premium": "Gross Net Premium or Expected Premium Income but in the found Currency",
+      "Reinstatement": "X" if any information about it,
+      "Installment": "Example: How much installments for the M&D Premium and when: 80.000 EUR on 01.01.2021 and 15.02.2021",
+      "Perils": Coverage in EUR when mentioned,
+      "START_DATE": "2021-01-01T00:00:00",
+    },
+
   ],
- 
   "AREA_SPLIT": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -166,7 +184,7 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "AREA": "Example: Germany or USA",
       "SHARE_IN_PERCENT": 0,
       "UW_AREA": "X",
-      "AREA_COVERED": "X",
+      "AREA_COVERED": "X"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -183,13 +201,13 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "1",
       "START_DATE": "1964-01-01T00:00:00",
-      "COB": "Example: Motor, Property",
+      "COB": "Example: Motor, Property"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "8",
       "START_DATE": "2021-01-01T00:00:00",
-      "COB": "Example: Motor, Property",
+      "COB": "Example: Motor, Property"
     }
   ],
   "CURRENCY_SPLIT": [
@@ -199,14 +217,14 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "SECTION_NUMBER": 1,
       "DT_PERIOD_START": "1964-01-01T00:00:00",
       "ORIGINAL_CURRENCY": "Example: EUR",
-      "ER_TYPE_FOR_CURRENCY": "M",
+      "ER_TYPE_FOR_CURRENCY": "M"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": 8,
       "DT_PERIOD_START": "2021-01-01T00:00:00",
       "ORIGINAL_CURRENCY": "Example: AFN",
-      "ER_TYPE_FOR_CURRENCY": "M",
+      "ER_TYPE_FOR_CURRENCY": "M"
     }
   ],
   "PARTNER_FUNCTION": [
@@ -214,7 +232,7 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "INVOLVEMENT_NUMBER": "",
       "START_DATE": "2021-01-01T00:00:00",
-      "PARTNER_FUNCTION": "Example: Account Receiver Reinsurer or Payment Receiver Reinsurer",
+      "PARTNER_FUNCTION": "Example: Account Receiver (Reinsurer) or Payment Receiver (Reinsurer)",
       "COMPANY_NAME": "Example: Biscaya named as Reinsured",
     }, 
   ],
@@ -299,7 +317,19 @@ if __name__ == '__main__':
     bedrock_client = boto3.client('bedrock-runtime', config=config)
 
     aws_model_id = "eu.anthropic.claude-sonnet-4-5-20250929-v1:0"
-    file_path = "anonym - select - Edinburgh MTPL_QS SC_2025.pdf"  # <-- PDF-Dateiname hier anpassen
+    
+    # Open file dialog to select PDF
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+    file_path = filedialog.askopenfilename(
+        title="Select a PDF file",
+        filetypes=[("PDF files", "*.pdf"), ("All files", "*.*")]
+    )
+    root.destroy()
+    
+    if not file_path:
+        print("No file selected.")
+        exit()
 
     try:
         ocr_text = read_pdf(file_path)
@@ -316,12 +346,6 @@ if __name__ == '__main__':
         json_output = extract_json(json_output, parse=True)
         pretty_json = json.dumps(json_output, indent=4, ensure_ascii=False)
         print(pretty_json)
-        
-        # Save JSON to file
-        output_file = "extracted_treaty_data.json"
-        with open(output_file, "w", encoding="utf-8") as f:
-            f.write(pretty_json)
-        print(f"\nJSON erfolgreich gespeichert in: {output_file}")
     except Exception as e:
         print("Fehler beim JSON-Parsing:", e)
         print("Roh-Output:", json_output)

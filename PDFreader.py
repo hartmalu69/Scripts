@@ -236,6 +236,22 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "COMPANY_NAME": "Example: Biscaya named as Reinsured",
     }, 
   ],
+  "COMMISSION_DETAILS": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "Example: 1",
+      "START_DATE": "2021-01-01T00:00:00",
+      "COMMISSION_TYPE": "Example: Fixed Commission or Provisional Commission",
+      "COMMISSION_RATE": "Example: 5%",
+    }
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "Example: 1",
+      "START_DATE": "2021-01-01T00:00:00",
+      "COMMISSION_TYPE": "Example: Fixed Commission or Provisional Commission",
+      "COMMISSION_RATE": "Example: 5%",
+    }
+  ],
 }
 
 """

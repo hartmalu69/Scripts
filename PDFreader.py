@@ -150,32 +150,29 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "PREM_ACCOUNTING_MODE": "Accounting Year, Underwriting Year or Occurence Year",
       "ER_ID": null,
     }
-"NP Liability": [
-    {
-      "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "SECTION_NUMBER": "8",
-      "SECTION_TEXT": "Example: UZV 25% EXZ",
-      "Attachement Point": "Example:Priority or Retention 500000 EUR",
-      "Limit": "Example: Liability 2000000 EUR",
-      "Loss Adj. Expenses": "IN Limit or out of Limit",
-      "Amounts Covered": "null"
-      "START_DATE": "2021-01-01T00:00:00",
-    },
- "NP PREMIUM": [
-    {
-      "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "SECTION_NUMBER": "8",
-      "SECTION_TEXT": "Example: UZV 25% EXZ",
-      "Fixed Premium": "Premium in EUR for Example but not M&D Premium",
-      "Fixed Premium Rate": "Percentage rate if any or total rate",
-      "Estimated Subject Premium": "Gross Net Premium or Expected Premium Income but in the found Currency",
-      "Reinstatement": "X" if any information about it,
-      "Installment": "Example: How much installments for the M&D Premium and when: 80.000 EUR on 01.01.2021 and 15.02.2021",
-      "Perils": Coverage in EUR when mentioned,
-      "START_DATE": "2021-01-01T00:00:00",
-    },
-
   ],
+  "Quota": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "8",
+      "SECTION_TEXT": "Example: UZV 25% EXZ",
+      "Share": "Quota Share in Percentage",
+      "Limit": "Liability Limit in EUR",
+      "EPI": "Estimated Premium Income in EUR",
+    },
+  ],
+  "Suex": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "1",
+      "SECTION_TEXT": "Example: UZV 25% EXZ",
+      "Maxima": "Retention in EUR",
+      "Limit": "Liability Limit in EUR",
+      "Priority": "Estimated Premium Income in EUR",
+    }
+  ],
+
+  
   "AREA_SPLIT": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",

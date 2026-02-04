@@ -240,7 +240,7 @@ Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlü
       "START_DATE": "2021-01-01T00:00:00",
       "COMMISSION_TYPE": "Example: Fixed Commission or Provisional Commission",
       "COMMISSION_RATE": "Example: 5%",
-      "LOSS_RATIO": "Only usable when Commission Type is Scaled Commission",
+      "LOSS_RATIO": "Only usable when Commission Type is Scaled Commission Example: 70%",
     }
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",

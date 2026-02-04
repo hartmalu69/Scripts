@@ -361,6 +361,14 @@ if __name__ == '__main__':
         json_output = extract_json(json_output, parse=True)
         pretty_json = json.dumps(json_output, indent=4, ensure_ascii=False)
         print(pretty_json)
+        
+        # Save the JSON to a file in the same directory
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        output_file = os.path.join(script_dir, "extracted_treaty_data.json")
+        with open(output_file, 'w', encoding='utf-8') as f:
+            f.write(pretty_json)
+        print(f"JSON saved to: {output_file}")
+        
     except Exception as e:
         print("Fehler beim JSON-Parsing:", e)
         print("Roh-Output:", json_output)

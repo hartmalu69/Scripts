@@ -26,6 +26,14 @@ Regeln:
 - Gib nur die JSON-Datei aus, ohne Erklärungen oder Kommentare.
 - Wenn du das Wort "Example:" siehst, dann habe ich dir ein Beispiel gegeben, wie der Wert aussehen könnte. Ersetze "Example:" und den Beispielwert durch den tatsächlichen Wert aus dem Vertrag oder lasse das Feld leer, wenn der Wert nicht gefunden werden kann.
 
+
+WICHTIG!! WÄHRUNGEN:
+- "Payment Currency" ist IMMER eindeutig die Währung unter der Überschrift "Payment Currency", "Currency of payment", "Zahlungswährung" oder ähnlichen Begriffen. Diese muss im JSON-Feld TREATY_SECTION[*].CURRENCY eingetragen werden.
+- "Original Currency" ist IMMER die Währung der Original-Policen oder der im Vertrag angegebenen Schadens-/Limitbeträge, sofern diese sich von der Payment Currency unterscheiden.
+- Wenn im Vertrag LIMITS oder REPORTING THRESHOLDS in einer anderen Währung angegeben sind, dann ist dies die ORIGINAL_CURRENCY und muss in CURRENCY_SPLIT[*].ORIGINAL_CURRENCY eingetragen werden.
+- Wenn Payment Currency ≠ Original Currency, dann MUSS Payment Currency NICHT in ORIGINAL_CURRENCY auftauchen.
+- Ignoriere alle einmaligen Beispielwährungen oder Wechselkurs-Hinweise (z. B. "Rate of Exchange..."), es zählt NUR die tatsächliche Zahlungs- und Originalwährung.
+
 Die JSON-Datei MUSS mindestens die folgende Struktur enthalten (mit allen Schlüsseln):
 
 {

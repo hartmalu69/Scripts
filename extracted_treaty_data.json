@@ -1,15 +1,16 @@
 {
-    "TREATY_HEADER": {
-        "TREATY_NUMBER": "",
-        "TREATY_TEXT": "Motor Third Party Liability Business",
-        "CEDENT": "Edinburgh Insurance",
-        "TTY_DIRECTION": "Incoming",
-        "NATURE_OF_TREATY": "proportional",
-        "ACCOUNTING_FREQ": "quarterly",
-        "FIRST_ACCT_KEY_DATE": "2025-01-01T00:00:00",
-        "ACCOUNT_CREATION_PERIOD": "60 days",
-        "END_OF_ACCOUNTING_YEAR": "2025-12-31T00:00:00"
-    },
+    "TREATY_HEADER": [
+        {
+            "TREATY_NUMBER": "",
+            "TREATY_TEXT": "CAT-XL 1. Layer",
+            "CEDENT": "Grazer Wechselseitige Versicherung AG",
+            "NATURE_OF_TREATY": "non-proportional",
+            "ACCOUNTING_FREQ": "halfyearly",
+            "FIRST_ACCT_KEY_DATE": "2025-01-01T00:00:00",
+            "ACCOUNT_CREATION_PERIOD": "",
+            "END_OF_ACCOUNTING_YEAR": "2025-12-31T00:00:00"
+        }
+    ],
     "TREATY_PERIOD": [
         {
             "TREATY_NUMBER": "",
@@ -21,14 +22,14 @@
         {
             "TREATY_NUMBER": "",
             "INVOLVEMENT": "1",
-            "PARTNER_INVOLVED": "New York Re",
+            "PARTNER_INVOLVED": "",
             "INVOLVEMENT_TEXT": "Reinsurer Share",
             "ROLE_CATEGORY": "Reinsurer"
         },
         {
             "TREATY_NUMBER": "",
             "INVOLVEMENT": "2",
-            "PARTNER_INVOLVED": "Edinburgh Insurance",
+            "PARTNER_INVOLVED": "Grazer Wechselseitige Versicherung AG",
             "INVOLVEMENT_TEXT": "Cedent Share",
             "ROLE_CATEGORY": "Cedent"
         }
@@ -38,7 +39,7 @@
             "TREATY_NUMBER": "",
             "INVOLVEMENT": "1",
             "START_DATE": "2025-01-01T00:00:00",
-            "BROKER": null
+            "BROKER": "HOGO Rückversicherungsmakler und –beratung GmbH & Co. KG"
         },
         {
             "TREATY_NUMBER": "",
@@ -54,8 +55,7 @@
             "INVOLVEMENT_NUMBER": "1",
             "SECTION_NUMBER": "1",
             "VALID_FROM": "2025-01-01T00:00:00",
-            "SHARE_IN_PERCENT": 100,
-            "TR_PS_STATUS": "001"
+            "SHARE_IN_PERCENT": ""
         },
         {
             "TREATY_NUMBER": "",
@@ -63,41 +63,54 @@
             "INVOLVEMENT_NUMBER": "2",
             "SECTION_NUMBER": "1",
             "VALID_FROM": "2025-01-01T00:00:00",
-            "SHARE_IN_PERCENT": 0,
-            "TR_PS_STATUS": "001"
+            "SHARE_IN_PERCENT": ""
         }
     ],
     "TREATY_SECTION": [
         {
             "TREATY_NUMBER": "",
             "SECTION_NUMBER": "1",
-            "SECTION_TEXT": "Motor Third Party Liability",
-            "AREA": "Country of domicile of Reinsured and Green Card Agreement territories",
-            "COB": "Motor Third Party Liability",
+            "SECTION_TEXT": "CAT-XL 1. Layer",
+            "AREA": "Europe",
+            "COB": "Catastrophe, Fire",
             "BUSINESS_TYPE": "Direct Business",
             "START_DATE": "2025-01-01T00:00:00",
-            "CURRENCY": "USD",
-            "PREM_ACCOUNTING_MODE": "Underwriting Year",
+            "CURRENCY": "EUR",
+            "PREM_ACCOUNTING_MODE": "Occurence Year",
             "ER_ID": null
         }
     ],
-    "Quota": [
+    "NP Liability": [
         {
             "TREATY_NUMBER": "",
             "SECTION_NUMBER": "1",
-            "SECTION_TEXT": "Motor Third Party Liability",
-            "Share": "60",
-            "Limit": "40000000",
-            "EPI": "186000000"
+            "SECTION_TEXT": "CAT-XL 1. Layer",
+            "Liability 1": "15000000",
+            "Liability 2": "35000000",
+            "START_DATE": "2025-01-01T00:00:00"
         }
     ],
-    "Suex": [],
+    "NP PREMIUM": [
+        {
+            "TREATY_NUMBER": "",
+            "SECTION_NUMBER": "1",
+            "SECTION_TEXT": "CAT-XL 1. Layer",
+            "Fixed Premium": "4807000",
+            "Fixed Premium Rate": "15.10",
+            "Estimated Subject Premium": "39795000",
+            "Reinstatement": "X",
+            "Installment": "4807000 EUR in two installments on 01.02.2025 and 01.08.2025",
+            "Perils": "Catastrophe perils, Natural hazards, Fire",
+            "Exclusions": "Household insurance, Nuclear risks, IT exclusions, Sanctions, Infectious diseases per attached clauses",
+            "START_DATE": "2025-01-01T00:00:00"
+        }
+    ],
     "AREA_SPLIT": [
         {
             "TREATY_NUMBER": "",
             "SECTION_NUMBER": "1",
             "START_DATE": "2025-01-01T00:00:00",
-            "AREA": "Country of domicile of Reinsured and Green Card Agreement territories",
+            "AREA": "Europe",
             "SHARE_IN_PERCENT": 0,
             "UW_AREA": "X",
             "AREA_COVERED": "X"
@@ -108,15 +121,15 @@
             "TREATY_NUMBER": "",
             "SECTION_NUMBER": "1",
             "START_DATE": "2025-01-01T00:00:00",
-            "COB": "Motor Third Party Liability"
+            "COB": "Catastrophe, Fire"
         }
     ],
     "CURRENCY_SPLIT": [
         {
             "TREATY_NUMBER": "",
-            "SECTION_NUMBER": 1,
+            "SECTION_NUMBER": "1",
             "DT_PERIOD_START": "2025-01-01T00:00:00",
-            "ORIGINAL_CURRENCY": "USD",
+            "ORIGINAL_CURRENCY": "EUR",
             "ER_TYPE_FOR_CURRENCY": "M"
         }
     ],
@@ -125,26 +138,8 @@
             "TREATY_NUMBER": "",
             "INVOLVEMENT_NUMBER": "1",
             "START_DATE": "2025-01-01T00:00:00",
-            "PARTNER_FUNCTION": "Account Receiver (Reinsurer)",
-            "COMPANY_NAME": "New York Re"
-        }
-    ],
-    "COMMISSION_DETAILS": [
-        {
-            "TREATY_NUMBER": "",
-            "SECTION_NUMBER": "1",
-            "START_DATE": "2025-01-01T00:00:00",
-            "COMMISSION_TYPE": "Provisional Commission",
-            "COMMISSION_RATE": "28.0%",
-            "LOSS_RATIO": "67.5%"
-        },
-        {
-            "TREATY_NUMBER": "",
-            "SECTION_NUMBER": "1",
-            "START_DATE": "2025-01-01T00:00:00",
-            "COMMISSION_TYPE": "Scaled Commission",
-            "COMMISSION_RATE": "17% to 42%",
-            "LOSS_RATIO": "80% to 55%"
+            "PARTNER_FUNCTION": "Payment Receiver (Reinsurer)",
+            "COMPANY_NAME": ""
         }
     ]
 }

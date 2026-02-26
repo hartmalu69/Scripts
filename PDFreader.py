@@ -13,19 +13,21 @@ Du bist ein erfahrener Vertragsanalyst mit Spezialisierung auf Rückversicherung
 ############################################################
 # ALLGEMEINE REGELN: 
 ############################################################
-- Wir pflegen das erzeugte JSON über eine API ein. Halte die JSON-Struktur exakt ein und fokussiere dich auf Werte, keine Fließtexte.
+- Wichtig! Wir wollen mit dem erzeugten JSON über eine API einen Vertrag in ein System einpflegen. Daher ist es essenziell, dass die JSON-Struktur exakt eingehalten wird und du nicht so viel Text schreibst sondern dich auf die Werte fokussierst.
 - Extrahiere ausschließlich Informationen für:
   * die erste Vertragsperiode,
-  * genau Layer 1 (wenn mehrere Layer vorhanden sind, ignoriere alle anderen).
+  * Pro Layer muss ein eigener Vertrag angelegt werden und in diesem Fall legst du nur einen Layer (Vertrag) an.
 - Verwende die vorgegebene JSON-Struktur mit allen Schlüsseln (auch wenn keine Werte vorhanden sind).
-- Werteformat:
+- Werte müssen im gleichen Format wie das Beispiel sein:
   * Strings für Textfelder,
-  * leere Strings "" oder "UNBEKANNT" für fehlende Informationen (so wie im jeweiligen Schema vorgesehen),
+  * leere Strings "" oder "UNBEKANNT" für fehlende Informationen,
   * keine zusätzlichen Schlüssel oder Kommentare.
-- Datumsangaben im Format YYYY-MM-DD oder YYYY-MM-DDT00:00:00; US-Daten (MM/DD/YYYY) konvertieren zu YYYY-MM-DDT00:00:00.
-- Unter "TREATY_PERIOD" am Anfang die Perioden; in nachfolgenden Feldern jeweils das Start-/Enddatum der ersten Periode verwenden.
-- Gib ausschließlich das JSON aus (ohne Erklärungen).
-- Wenn "Example:" im Schema steht, ersetze es durch echte Werte oder lasse das Feld leer, wenn im Vertrag nicht vorhanden.
+- Datumsangaben im Format YYYY-MM-DD oder YYYY-MM-DDT00:00:00 und für Amerikanische Datumsangaben MM/DD/YYYY in YYYY-MM-DDT00:00:00 umwandeln.
+- Unter "TREATY_PERIOD" findest du am Anfang die Perioden des Vertrags und in allen folgenden Feldern nimmst du auch das Startdatum bzw. Enddatum der jeweiligen Periode.
+- Wenn mehrere Layer oder Perioden vorhanden sind, ignoriere alle außer der ersten und Layer 1.
+- Gib nur die JSON-Datei aus, ohne Erklärungen oder Kommentare.
+- Wenn du das Wort "Example:" siehst, dann habe ich dir ein Beispiel gegeben, wie der Wert aussehen könnte. Ersetze "Example:" und den Beispielwert durch den tatsächlichen Wert aus dem Vertrag oder lasse das Feld leer, wenn der Wert nicht gefunden werden kann.
+
 
 ############################################################
 # WÄHRUNGEN (verbindliche Regeln):
@@ -74,8 +76,8 @@ REGELN für AREA-NORMALISIERUNG:
 ############################################################
 Ermittle den Vertragstyp:
 - A) QUOTA / PROPORTIONAL / QUOTENVERTRAG (Keywords u.a.: "Quota Share", "proportional", fester %-Anteil, „Zession %“)
-- B) SCHADENEXZEDENT / EXCESS OF LOSS (NP/XL) (Keywords u.a.: "Excess of Loss", "XL", "WXL", "Cat XL", "xs", "Priority/Retention", "Liability layer")
-- C) ANDERE (z.B. Stop Loss, Aggregate XL, Open Cover, Facultative, Surplus (obligatorisch oder fakultativ), etc.)
+- B) SUMMENEXZEDENT / PROPORTIONAL / SuEx (Keywords u.a.: "Summenexzedent", "proportional" "Surplus Treaty", "Exzedentenabgabe", "Cession", "Eigenbehalt", "Maximum", "Line")
+- C) SCHADENEXZEDENT / EXCESS OF LOSS (NP/XL) (Keywords u.a.: "Excess of Loss", "XL", "WXL", "Cat XL", "xs", "Priority/Retention", "Liability layer")
 
 ############################################################
 # 2) GENAU EINE JSON-STRUKTUR AUSGEBEN (je nach Typ)
@@ -84,20 +86,18 @@ Ermittle den Vertragstyp:
 ## A) Wenn Vertragstyp = QUOTA/PROPORTIONAL:
 
 {
-  
-  "TREATY_HEADER":[
-
-   {
+  {
+  "TREATY_HEADER": {
     "TREATY_NUMBER": "<TREATY_NUMBER>",
     "TREATY_TEXT": "Example: DBV LEBEN",
     "CEDENT": "Example: Biscaya named as Reinsured",
+    "TTY_DIRECTION": "Example: Incoming when you are the Reinsurer and Outgoing when you are the Cedent",
     "NATURE_OF_TREATY": "Example: proportional or non-proportional",
-    "ACCOUNTING_FREQ": "Example: monthly/quarterly/annual/halfyearly" depends on the amount of installments paid for example 4 installments then it´s quarterly",
+    "ACCOUNTING_FREQ": "Example: monthly/quarterly/annual/halfyearly",
     "FIRST_ACCT_KEY_DATE": "For non-proportional treaties: Treaty start date",
     "ACCOUNT_CREATION_PERIOD": "Frist für Abrechnungserstellung",
     "END_OF_ACCOUNTING_YEAR": "Period End date",
   },
-  ],
   "TREATY_PERIOD": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -123,31 +123,31 @@ Ermittle den Vertragstyp:
       "INVOLVEMENT": "Wähle eine hochzählende Nummer startend bei 1",
       "PARTNER_INVOLVED": "Cedent Name",
       "INVOLVEMENT_TEXT": "Our Share",
-      "ROLE_CATEGORY": "Cedent",
+      "ROLE_CATEGORY": "Cedent"
     }
   ],
   "SHARE_DETAILS": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "2021-01-01T00:00:00",
       "BROKER": null,
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "1964-01-01T00:00:00",
       "BROKER": null,
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "1964-01-01T00:00:00",
       "BROKER": null,
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "INVOLVEMENT": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
       "START_DATE": "2021-01-01T00:00:00",
       "BROKER": null,
     }
@@ -159,7 +159,8 @@ Ermittle den Vertragstyp:
       "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
       "SECTION_NUMBER": "1",
       "VALID_FROM": "1972-01-01T00:00:00",
-      "SHARE_IN_PERCENT": "",
+      "SHARE_IN_PERCENT": 25,
+      "TR_PS_STATUS": "005"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -167,14 +168,24 @@ Ermittle den Vertragstyp:
       "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
       "SECTION_NUMBER": "1",
       "VALID_FROM": "1980-01-01T00:00:00",
-      "SHARE_IN_PERCENT": "",
+      "SHARE_IN_PERCENT": 0,
+      "TR_PS_STATUS": "005"
     },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "START_DATE": "2021-01-01T00:00:00",
+      "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "SECTION_NUMBER": "8",
+      "VALID_FROM": "2021-01-01T00:00:00",
+      "SHARE_IN_PERCENT": 15,
+      "TR_PS_STATUS": "001"
+    }
   ],
   
   "TREATY_SECTION": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "SECTION_NUMBER": "Example: 8",
+      "SECTION_NUMBER": "8",
       "SECTION_TEXT": "Example: UZV 25% EXZ",
       "AREA": "Example: Germany, USA",
       "COB": "Example: Motor, Property",
@@ -194,34 +205,20 @@ Ermittle den Vertragstyp:
       "START_DATE": "2021-01-01T00:00:00",
       "CURRENCY": "Example: EUR",
       "PREM_ACCOUNTING_MODE": "Accounting Year, Underwriting Year or Occurence Year",
+      "ER_ID": null,
     }
   ],
-"NP Liability": [
+  "Quota": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "8",
       "SECTION_TEXT": "Example: UZV 25% EXZ",
-      "Liability 1": "Attachement Point in EUR"
-      "Liability 2": "Liability Limit in EUR",
-      "START_DATE": "2021-01-01T00:00:00",
+      "Share": "Quota Share in Percentage",
+      "Limit": "Liability Limit in EUR",
+      "EPI": "Estimated Premium Income in EUR",
     },
-],
- "NP PREMIUM": [
-    {
-      "TREATY_NUMBER": "<TREATY_NUMBER>",
-      "SECTION_NUMBER": "",
-      "SECTION_TEXT": "",
-      "Fixed Premium": "Premium in EUR for Example but not M&D Premium",
-      "Fixed Premium Rate": "Percentage rate if any or total rate",
-      "Estimated Subject Premium": "Gross Net Premium or Expected Premium Income but in the found Currency",
-      "Reinstatement": "X if any information about it",
-      "Installment": "Example: How much installments for the M&D Premium and when: 80.000 EUR on 01.01.2021 and 15.02.2021",
-      "Perils": "Coverage in EUR when mentioned",
-      "Exclusions": "Exclusions as String if any information about it",
-      "START_DATE": "2021-01-01T00:00:00",
-    },
-
   ],
+
   "AREA_SPLIT": [
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -230,7 +227,7 @@ Ermittle den Vertragstyp:
       "AREA": "Example: Germany or USA",
       "SHARE_IN_PERCENT": 0,
       "UW_AREA": "X",
-      "AREA_COVERED": "X",
+      "AREA_COVERED": "X"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
@@ -247,13 +244,13 @@ Ermittle den Vertragstyp:
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "1",
       "START_DATE": "1964-01-01T00:00:00",
-      "COB": "Example: Motor, Property",
+      "COB": "Example: Motor, Property"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": "8",
       "START_DATE": "2021-01-01T00:00:00",
-      "COB": "Example: Motor, Property",
+      "COB": "Example: Motor, Property"
     }
   ],
   "CURRENCY_SPLIT": [
@@ -263,14 +260,14 @@ Ermittle den Vertragstyp:
       "SECTION_NUMBER": 1,
       "DT_PERIOD_START": "1964-01-01T00:00:00",
       "ORIGINAL_CURRENCY": "Example: EUR",
-      "ER_TYPE_FOR_CURRENCY": "M",
+      "ER_TYPE_FOR_CURRENCY": "M"
     },
     {
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "SECTION_NUMBER": 8,
       "DT_PERIOD_START": "2021-01-01T00:00:00",
       "ORIGINAL_CURRENCY": "Example: AFN",
-      "ER_TYPE_FOR_CURRENCY": "M",
+      "ER_TYPE_FOR_CURRENCY": "M"
     }
   ],
   "PARTNER_FUNCTION": [
@@ -278,13 +275,247 @@ Ermittle den Vertragstyp:
       "TREATY_NUMBER": "<TREATY_NUMBER>",
       "INVOLVEMENT_NUMBER": "",
       "START_DATE": "2021-01-01T00:00:00",
-      "PARTNER_FUNCTION": "Example: Account Receiver Reinsurer or Payment Receiver Reinsurer",
+      "PARTNER_FUNCTION": "Example: Account Receiver (Reinsurer) or Payment Receiver (Reinsurer)",
       "COMPANY_NAME": "Example: Biscaya named as Reinsured",
     }, 
   ],
+  "COMMISSION_DETAILS": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "Example: 1",
+      "START_DATE": "2021-01-01T00:00:00",
+      "COMMISSION_TYPE": "Example: Fixed Commission or Provisional Commission",
+      "COMMISSION_RATE": "Example: 5%",
+      "LOSS_RATIO": "Only usable when Commission Type is Scaled Commission Example: 70%",
+    }
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "Example: 1",
+      "START_DATE": "2021-01-01T00:00:00",
+      "COMMISSION_TYPE": "Example: Fixed Commission or Provisional Commission",
+      "COMMISSION_RATE": "Example: 5%",
+      "LOSS_RATIO": "Only usable when Commission Type is Scaled Commission",
+    }
+  ],
 }
 
-## B) Wenn Vertragstyp = SCHADENEXZEDENT / NP / XL:
+B) Wenn Vertragstyp = SUMMENEXZEDENT/PROPORTIONAL/SuEx:
+{
+  {
+  "TREATY_HEADER": {
+    "TREATY_NUMBER": "<TREATY_NUMBER>",
+    "TREATY_TEXT": "Example: DBV LEBEN",
+    "CEDENT": "Example: Biscaya named as Reinsured",
+    "TTY_DIRECTION": "Example: Incoming when you are the Reinsurer and Outgoing when you are the Cedent",
+    "NATURE_OF_TREATY": "Example: proportional or non-proportional",
+    "ACCOUNTING_FREQ": "Example: monthly/quarterly/annual/halfyearly",
+    "FIRST_ACCT_KEY_DATE": "For non-proportional treaties: Treaty start date",
+    "ACCOUNT_CREATION_PERIOD": "Frist für Abrechnungserstellung",
+    "END_OF_ACCOUNTING_YEAR": "Period End date",
+  },
+  "TREATY_PERIOD": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "START_DATE": "Example: 2021-01-01T00:00:00",
+      "END_DATE": "Example: 2021-01-31T00:00:00",
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "START_DATE": "Example: 1964-01-01T00:00:00",
+      "END_DATE": "Example: 2020-12-31T00:00:00",
+    }
+  ],
+  "SHARES_HEADER": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "INVOLVEMENT": "Wähle eine hochzählende Nummer startend bei 1",
+      "PARTNER_INVOLVED": "Reinsurer Name",
+      "INVOLVEMENT_TEXT": "Cedent Share",
+      "ROLE_CATEGORY": "Reinsurer"
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "INVOLVEMENT": "Wähle eine hochzählende Nummer startend bei 1",
+      "PARTNER_INVOLVED": "Cedent Name",
+      "INVOLVEMENT_TEXT": "Our Share",
+      "ROLE_CATEGORY": "Cedent"
+    }
+  ],
+  "SHARE_DETAILS": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
+      "START_DATE": "2021-01-01T00:00:00",
+      "BROKER": null,
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
+      "START_DATE": "1964-01-01T00:00:00",
+      "BROKER": null,
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
+      "START_DATE": "1964-01-01T00:00:00",
+      "BROKER": null,
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "INVOLVEMENT": Hier die von dir gewählte Involvement Nummer einfügen,
+      "START_DATE": "2021-01-01T00:00:00",
+      "BROKER": null,
+    }
+  ],
+  "PARTNER_SHARE": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "START_DATE": "1964-01-01T00:00:00",
+      "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "SECTION_NUMBER": "1",
+      "VALID_FROM": "1972-01-01T00:00:00",
+      "SHARE_IN_PERCENT": 25,
+      "TR_PS_STATUS": "005"
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "START_DATE": "1964-01-01T00:00:00",
+      "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "SECTION_NUMBER": "1",
+      "VALID_FROM": "1980-01-01T00:00:00",
+      "SHARE_IN_PERCENT": 0,
+      "TR_PS_STATUS": "005"
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "START_DATE": "2021-01-01T00:00:00",
+      "INVOLVEMENT_NUMBER": "Hier die von dir gewählte Involvement Nummer einfügen",
+      "SECTION_NUMBER": "8",
+      "VALID_FROM": "2021-01-01T00:00:00",
+      "SHARE_IN_PERCENT": 15,
+      "TR_PS_STATUS": "001"
+    }
+  ],
+  
+  "TREATY_SECTION": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "8",
+      "SECTION_TEXT": "Example: UZV 25% EXZ",
+      "AREA": "Example: Germany, USA",
+      "COB": "Example: Motor, Property",
+      "BUSINESS_TYPE": "Example: Direct Business or Indirect Business",
+      "START_DATE": "2021-01-01T00:00:00",
+      "CURRENCY": "Example: AFN",
+      "PREM_ACCOUNTING_MODE": "Accounting Year, Underwriting Year or Occurence Year",
+      "ER_ID": null,
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "1",
+      "SECTION_TEXT": "Example: UZV 25% EXZ",
+      "AREA": "Example: Germany, USA",
+      "COB": "Example: Motor, Property",
+      "BUSINESS_TYPE": "Example: Direct Business or Indirect Business",
+      "START_DATE": "2021-01-01T00:00:00",
+      "CURRENCY": "Example: EUR",
+      "PREM_ACCOUNTING_MODE": "Accounting Year, Underwriting Year or Occurence Year",
+      "ER_ID": null,
+    }
+  ],
+  "Suex": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "1",
+      "SECTION_TEXT": "Example: UZV 25% EXZ",
+      "Maxima": "Retention in EUR",
+      "Limit": "Liability Limit in EUR",
+      "Priority": "Estimated Premium Income in EUR",
+    }
+  ],
+  "AREA_SPLIT": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "1",
+      "START_DATE": "1964-01-01T00:00:00",
+      "AREA": "Example: Germany or USA",
+      "SHARE_IN_PERCENT": 0,
+      "UW_AREA": "X",
+      "AREA_COVERED": "X"
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "8",
+      "START_DATE": "2021-01-01T00:00:00",
+      "AREA": "Example: Germany or USA",
+      "SHARE_IN_PERCENT": 0,
+      "UW_AREA": "X",
+      "AREA_COVERED": "X"
+    }
+  ],
+  "TREATY_COB_SPLIT": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "1",
+      "START_DATE": "1964-01-01T00:00:00",
+      "COB": "Example: Motor, Property"
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "8",
+      "START_DATE": "2021-01-01T00:00:00",
+      "COB": "Example: Motor, Property"
+    }
+  ],
+  "CURRENCY_SPLIT": [
+    
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": 1,
+      "DT_PERIOD_START": "1964-01-01T00:00:00",
+      "ORIGINAL_CURRENCY": "Example: EUR",
+      "ER_TYPE_FOR_CURRENCY": "M"
+    },
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": 8,
+      "DT_PERIOD_START": "2021-01-01T00:00:00",
+      "ORIGINAL_CURRENCY": "Example: AFN",
+      "ER_TYPE_FOR_CURRENCY": "M"
+    }
+  ],
+  "PARTNER_FUNCTION": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "INVOLVEMENT_NUMBER": "",
+      "START_DATE": "2021-01-01T00:00:00",
+      "PARTNER_FUNCTION": "Example: Account Receiver (Reinsurer) or Payment Receiver (Reinsurer)",
+      "COMPANY_NAME": "Example: Biscaya named as Reinsured",
+    }, 
+  ],
+  "COMMISSION_DETAILS": [
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "Example: 1",
+      "START_DATE": "2021-01-01T00:00:00",
+      "COMMISSION_TYPE": "Example: Fixed Commission or Provisional Commission",
+      "COMMISSION_RATE": "Example: 5%",
+      "LOSS_RATIO": "Only usable when Commission Type is Scaled Commission Example: 70%",
+    }
+    {
+      "TREATY_NUMBER": "<TREATY_NUMBER>",
+      "SECTION_NUMBER": "Example: 1",
+      "START_DATE": "2021-01-01T00:00:00",
+      "COMMISSION_TYPE": "Example: Fixed Commission or Provisional Commission",
+      "COMMISSION_RATE": "Example: 5%",
+      "LOSS_RATIO": "Only usable when Commission Type is Scaled Commission",
+    }
+  ],
+}
+
+
+
+## C) Wenn Vertragstyp = SCHADENEXZEDENT / NP / XL:
 
 {
   
@@ -487,25 +718,7 @@ Ermittle den Vertragstyp:
   ],
 }
 
-## C) Wenn Vertragstyp = ANDERE:
-## → Verwende diese kompakte allgemeine Struktur:
-{
-  "TREATY_TYPE": "",
-  "TREATY_NUMBER": "",
-  "CEDENT": "",
-  "REINSURER": "",
-  "NATURE_OF_TREATY": "",
-  "START_DATE": "",
-  "END_DATE": "",
-  "CURRENCY": "",
-  "LIMITS": "",
-  "RETENTION": "",
-  "PREMIUM": "",
-  "ACCOUNTING": "",
-  "SPECIAL_CONDITIONS": "",
-  "EXCLUSIONS": "",
-  "COMMENTS": ""
-}
+
 
 WICHTIG:
 - Gib GENAU EINE der drei JSONs aus.
